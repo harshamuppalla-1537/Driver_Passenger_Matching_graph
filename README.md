@@ -128,7 +128,7 @@ Distance: 12 km
 ---
 
 ## 🧑‍💻 Authors
-**Harshavardhan|VishnuVardhan** 
+**Harshavardhan|Ravi kumar** 
 
 
 Computer Science Student | DSA Enthusiast  
