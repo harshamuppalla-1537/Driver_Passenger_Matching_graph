@@ -2,239 +2,152 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX 100
+/* --- Structure Definition --- */
+typedef struct Ride {
+    int rideID;
+    char customerName[50];
+    char destination[50];
+    float fare;
+    struct Ride* next;
+} Ride;
 
-// Node (Driver / Passenger)
-typedef struct Node {
-    int id;
-    char type[10];
-    struct Node* next;
-} Node;
+/* --- Function Prototypes --- */
+void addRide(Ride** head);
+void displayRides(Ride* head);
+void updateRide(Ride* head);
+void deleteRide(Ride** head);
+void searchRide(Ride* head);
+void freeList(Ride* head);
 
-// Edge (Match)
-typedef struct Edge {
-    int dest;
-    int weight;
-    struct Edge* next;
-} Edge;
-
-// Graph
-typedef struct Graph {
-    Node* nodes[MAX];
-    Edge* adjList[MAX];
-} Graph;
-
-Graph graph;
-
-// Initialize graph
-void initGraph() {
-    for (int i = 0; i < MAX; i++) {
-        graph.nodes[i] = NULL;
-        graph.adjList[i] = NULL;
-    }
-}
-
-// MENU
-void showMenu() {
-    printf("\n==============================\n");
-    printf("Ride Matching System\n");
-    printf("==============================\n");
-    printf("1. Add Driver\n");
-    printf("2. Add Passenger\n");
-    printf("3. Create Match (Driver <-> Passenger)\n");
-    printf("4. View All Matches\n");
-    printf("5. Update Match Distance\n");
-    printf("6. Remove Match\n");
-    printf("7. Remove User\n");
-    printf("0. Exit\n");
-    printf("------------------------------\n");
-    printf("Enter your choice: ");
-}
-
-// ADD NODE
-void addNode(int id, char* type) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->id = id;
-    strcpy(newNode->type, type);
-    newNode->next = graph.nodes[id];
-    graph.nodes[id] = newNode;
-
-    printf("Driver/Passenger added successfully.\n");
-    printf("ID: %d (%s)\n", id, type);
-}
-
-// ADD EDGE
-void addEdge(int src, int dest, int weight) {
-    Edge* newEdge = (Edge*)malloc(sizeof(Edge));
-    newEdge->dest = dest;
-    newEdge->weight = weight;
-    newEdge->next = graph.adjList[src];
-    graph.adjList[src] = newEdge;
-
-    printf("Match created successfully.\n");
-    printf("Driver %d <-> Passenger %d\n", src, dest);
-    printf("Distance: %d km\n", weight);
-}
-
-// DISPLAY GRAPH
-void displayGraph() {
-    printf("\nCurrent Ride Matches:\n");
-
-    int empty = 1;
-
-    for (int i = 0; i < MAX; i++) {
-        if (graph.nodes[i] != NULL) {
-            empty = 0;
-            printf("\n%s ID %d:\n", graph.nodes[i]->type, i);
-
-            Edge* temp = graph.adjList[i];
-            if (!temp) {
-                printf("  No matches available.\n");
-            }
-
-            while (temp) {
-                printf("  -> Passenger %d (Distance: %d km)\n",
-                       temp->dest, temp->weight);
-                temp = temp->next;
-            }
-        }
-    }
-
-    if (empty) {
-        printf("No users or matches found.\n");
-    }
-}
-
-// UPDATE EDGE
-void updateEdge(int src, int dest, int newWeight) {
-    Edge* temp = graph.adjList[src];
-
-    while (temp) {
-        if (temp->dest == dest) {
-            temp->weight = newWeight;
-            printf("Match updated successfully.\n");
-            printf("Driver %d is now %d km away from Passenger %d\n",
-                   src, newWeight, dest);
-            return;
-        }
-        temp = temp->next;
-    }
-
-    printf("Match not found.\n");
-}
-
-// DELETE EDGE
-void deleteEdge(int src, int dest) {
-    Edge* temp = graph.adjList[src];
-    Edge* prev = NULL;
-
-    while (temp) {
-        if (temp->dest == dest) {
-            if (prev)
-                prev->next = temp->next;
-            else
-                graph.adjList[src] = temp->next;
-
-            free(temp);
-            printf("Match removed between Driver %d and Passenger %d\n", src, dest);
-            return;
-        }
-        prev = temp;
-        temp = temp->next;
-    }
-
-    printf("Match not found.\n");
-}
-
-// DELETE NODE
-void deleteNode(int id) {
-    if (graph.nodes[id] == NULL) {
-        printf("User not found.\n");
-        return;
-    }
-
-    printf("Removing %s with ID %d...\n", graph.nodes[id]->type, id);
-
-    free(graph.nodes[id]);
-    graph.nodes[id] = NULL;
-
-    // Remove edges pointing to this node
-    for (int i = 0; i < MAX; i++) {
-        deleteEdge(i, id);
-    }
-
-    printf("User removed successfully.\n");
-}
-
-// MAIN
+/* --- Main Menu --- */
 int main() {
-    initGraph();
-
-    int choice, id, src, dest, weight;
+    Ride* head = NULL;
+    int choice;
 
     while (1) {
-        showMenu();
+        printf("\n===================================");
+        printf("\n    RAPIDO PLATFORM SYSTEM");
+        printf("\n===================================");
+        printf("\n1. Add Ride (Create)");
+        printf("\n2. Display All Rides (Read)");
+        printf("\n3. Update Ride (Update)");
+        printf("\n4. Delete Ride (Delete)");
+        printf("\n5. Search Ride");
+        printf("\n6. Exit");
+        printf("\nEnter choice: ");
         scanf("%d", &choice);
 
         switch (choice) {
-            case 1:
-                printf("Enter Driver ID: ");
-                scanf("%d", &id);
-                addNode(id, "driver");
-                break;
-
-            case 2:
-                printf("Enter Passenger ID: ");
-                scanf("%d", &id);
-                addNode(id, "passenger");
-                break;
-
-            case 3:
-                printf("Enter Driver ID: ");
-                scanf("%d", &src);
-                printf("Enter Passenger ID: ");
-                scanf("%d", &dest);
-                printf("Enter Distance (km): ");
-                scanf("%d", &weight);
-                addEdge(src, dest, weight);
-                break;
-
-            case 4:
-                displayGraph();
-                break;
-
-            case 5:
-                printf("Enter Driver ID: ");
-                scanf("%d", &src);
-                printf("Enter Passenger ID: ");
-                scanf("%d", &dest);
-                printf("Enter New Distance: ");
-                scanf("%d", &weight);
-                updateEdge(src, dest, weight);
-                break;
-
-            case 6:
-                printf("Enter Driver ID: ");
-                scanf("%d", &src);
-                printf("Enter Passenger ID: ");
-                scanf("%d", &dest);
-                deleteEdge(src, dest);
-                break;
-
-            case 7:
-                printf("Enter User ID to remove: ");
-                scanf("%d", &id);
-                deleteNode(id);
-                break;
-
-            case 0:
-                printf("Exiting program. Goodbye.\n");
+            case 1: addRide(&head); break;
+            case 2: displayRides(head); break;
+            case 3: updateRide(head); break;
+            case 4: deleteRide(&head); break;
+            case 5: searchRide(head); break;
+            case 6: 
+                freeList(head);
+                printf("System Shutdown. Memory Cleared.\n");
                 exit(0);
-
-            default:
-                printf("Invalid choice. Try again.\n");
+            default: printf("Invalid option!\n");
         }
     }
-
     return 0;
+}
+
+/* --- CRUD Implementations --- */
+
+void addRide(Ride** head) {
+    Ride* newNode = (Ride*)malloc(sizeof(Ride));
+    if (!newNode) return;
+
+    printf("Enter Ride ID: ");
+    scanf("%d", &newNode->rideID);
+    printf("Customer Name: ");
+    scanf("%s", newNode->customerName);
+    printf("Destination: ");
+    scanf("%s", newNode->destination);
+    printf("Fare: ");
+    scanf("%f", &newNode->fare);
+    newNode->next = NULL;
+
+    if (*head == NULL) {
+        *head = newNode;
+    } else {
+        Ride* temp = *head;
+        while (temp->next) temp = temp->next;
+        temp->next = newNode;
+    }
+    printf("Ride logged successfully.\n");
+}
+
+void displayRides(Ride* head) {
+    if (!head) { printf("\nNo active rides.\n"); return; }
+    printf("\nID\tName\t\tDest\t\tFare");
+    while (head) {
+        printf("\n%d\t%s\t\t%s\t\t%.2f", head->rideID, head->customerName, head->destination, head->fare);
+        head = head->next;
+    }
+    printf("\n");
+}
+
+void updateRide(Ride* head) {
+    int id;
+    printf("Enter ID to Update: ");
+    scanf("%d", &id);
+    while (head) {
+        if (head->rideID == id) {
+            printf("New Destination: ");
+            scanf("%s", head->destination);
+            printf("New Fare: ");
+            scanf("%f", &head->fare);
+            printf("Update complete.\n");
+            return;
+        }
+        head = head->next;
+    }
+    printf("Ride not found.\n");
+}
+
+void deleteRide(Ride** head) {
+    int id;
+    printf("Enter ID to Delete: ");
+    scanf("%d", &id);
+    Ride *temp = *head, *prev = NULL;
+
+    if (temp && temp->rideID == id) {
+        *head = temp->next;
+        free(temp);
+        printf("Ride deleted.\n");
+        return;
+    }
+    while (temp && temp->rideID != id) {
+        prev = temp;
+        temp = temp->next;
+    }
+    if (!temp) return;
+    prev->next = temp->next;
+    free(temp);
+    printf("Ride deleted.\n");
+}
+
+void searchRide(Ride* head) {
+    int id;
+    printf("Search ID: ");
+    scanf("%d", &id);
+    while (head) {
+        if (head->rideID == id) {
+            printf("Found: %s to %s ($%.2f)\n", head->customerName, head->destination, head->fare);
+            return;
+        }
+        head = head->next;
+    }
+    printf("Not found.\n");
+}
+
+void freeList(Ride* head) {
+    Ride* temp;
+    while (head) {
+        temp = head;
+        head = head->next;
+        free(temp);
+    }
 }
