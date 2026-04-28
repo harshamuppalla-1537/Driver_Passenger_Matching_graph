@@ -1,6 +1,6 @@
-# 🚗 Ride Matching System
+# 🚗 Rapido platform 
 
-A **C-based Ride Matching System** that uses **Graph (Adjacency List)** to simulate matching between **drivers** and **passengers**.  
+A **C-based rapido platform** that uses **Graph (Adjacency List)** to simulate matching between **drivers** and **passengers**.  
 This project demonstrates **CRUD operations** on nodes (users) and edges (matches), making it a practical example of applying **Data Structures & Algorithms (DSA)** concepts.
 
 ---
@@ -69,7 +69,7 @@ gcc main.c -o ride_matching
 ## 🧪 Sample Input/Output
 ```
 ==============================
-Ride Matching System
+ rapido platform
 ==============================
 1. Add Driver
 2. Add Passenger
