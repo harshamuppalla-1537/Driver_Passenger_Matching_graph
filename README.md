@@ -155,8 +155,33 @@ gcc rapido.c -o rapido
 
 <img width="289" height="196" alt="image" src="https://github.com/user-attachments/assets/895e81f7-3b7a-498a-a462-f491fc05f113" />
 
+### Adding a ride
+
 <img width="266" height="267" alt="image" src="https://github.com/user-attachments/assets/0cb6ccc4-4d48-4241-9f73-2530cb0c8a1d" />
 
+### Display Rides
+
+<img width="366" height="243" alt="image" src="https://github.com/user-attachments/assets/e3a4800a-2c5e-4f42-9f67-268621b3281f" />
+
+### Update Ride
+
+<img width="284" height="248" alt="image" src="https://github.com/user-attachments/assets/c4dca9e5-a103-4bff-ace6-86f6e7c0846a" />
+
+### Searching Ride
+
+<img width="285" height="219" alt="image" src="https://github.com/user-attachments/assets/d093e4e7-106d-46a8-8d2f-4d130cfcb326" />
+
+### Deleting Ride
+
+<img width="287" height="218" alt="image" src="https://github.com/user-attachments/assets/aa720ce0-2c2a-4681-a285-fdf27e3b3c24" />
+
+### Display after deleting
+
+<img width="276" height="217" alt="image" src="https://github.com/user-attachments/assets/59a34c7c-c228-46f7-856f-cb3959801f0e" />
+
+### Exiting the menu 
+
+<img width="273" height="191" alt="image" src="https://github.com/user-attachments/assets/b1dc2703-8ed9-48b3-a119-bd44f0640012" />
 
 ---
 
