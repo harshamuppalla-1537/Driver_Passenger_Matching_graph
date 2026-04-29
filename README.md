@@ -151,39 +151,12 @@ gcc rapido.c -o rapido
 
 ## 💻 Sample Output
 
-```
-===================================
-    RAPIDO PLATFORM SYSTEM
-===================================
-1. Add Ride (Create)
-2. Display All Rides (Read)
-3. Update Ride (Update)
-4. Delete Ride (Delete)
-5. Search Ride
-6. Exit
-Enter choice: 1
+### Display Menu
 
-Enter Ride ID: 101
-Customer Name: Ravi
-Destination: Chennai
-Fare: 150
-Ride logged successfully.
+<img width="289" height="196" alt="image" src="https://github.com/user-attachments/assets/895e81f7-3b7a-498a-a462-f491fc05f113" />
 
-Enter choice: 2
+<img width="266" height="267" alt="image" src="https://github.com/user-attachments/assets/0cb6ccc4-4d48-4241-9f73-2530cb0c8a1d" />
 
-ID      Name            Dest            Fare
-101     Ravi            Chennai         150.00
-
-Enter choice: 3
-Enter ID to Update: 101
-New Destination: Bangalore
-New Fare: 200
-Update complete.
-
-Enter choice: 5
-Search ID: 101
-Found: Ravi to Bangalore ($200.00)
-```
 
 ---
 
